@@ -23,6 +23,6 @@ function getNumber (input) {
   return Number.parseInt(result, 10);
 }
 
-// console.log(isValidLength('проверяемая строка', 10));
-// console.log(isPalindrome('Лёша на полке клопа нашёл '));
-// console.log(getNumber('000sd123.23'));
+isValidLength('проверяемая строка', 10);
+isPalindrome('Лёша на полке клопа нашёл ');
+getNumber('000sd123.23');
