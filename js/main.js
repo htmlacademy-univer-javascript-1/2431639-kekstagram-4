@@ -86,4 +86,7 @@ function createComment (getIdFunction) {
 }
 
 const objects = Array.from({length: 25}, createObject);
+const emptyFunc = (arr) => arr;
+emptyFunc(objects);
+
 //console.log(objects);
