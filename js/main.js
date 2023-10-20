@@ -62,15 +62,16 @@ function generateText (source) {
   };
 }
 
-const getObjectId = createRandomIdFromRangeGenerator(1, 25);
-function createObject () {
-  const idValue = getObjectId();
-  return {
-    id: idValue,
-    url: `photos/${idValue}.jpg`,
-    description: getRandomArrayElement(DESCRIPTIONS),
-    likes: getRandomNumber(15, 200),
-    comments: Array.from({length: getRandomNumber(0, 30)}, createComment(createRandomIdFromRangeGenerator(1, 30))),
+function createObject (getIdFunction) {
+  return function () {
+    const idValue = getIdFunction();
+    return {
+      id: idValue,
+      url: `photos/${idValue}.jpg`,
+      description: getRandomArrayElement(DESCRIPTIONS),
+      likes: getRandomNumber(15, 200),
+      comments: Array.from({length: getRandomNumber(0, 30)}, createComment(createRandomIdFromRangeGenerator(1, 30))),
+    };
   };
 }
 
@@ -85,8 +86,8 @@ function createComment (getIdFunction) {
   };
 }
 
-const objects = Array.from({length: 25}, createObject);
+const objects = Array.from({length: 25}, createObject(createRandomIdFromRangeGenerator(1, 25)));
 const emptyFunc = (arr) => arr;
 emptyFunc(objects);
 
-//console.log(objects);
+// console.log(objects);
