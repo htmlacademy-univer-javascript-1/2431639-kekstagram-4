@@ -67,5 +67,5 @@ function createComment (getIdFunction) {
   };
 }
 
-const createObjects = () => Array.from({length: OBJECTS_COUNT}, createObject(createRandomIdFromRangeGenerator(1, OBJECTS_COUNT)));
-export {createObjects};
+const createPictures = () => Array.from({length: OBJECTS_COUNT}, createObject(createRandomIdFromRangeGenerator(1, OBJECTS_COUNT)));
+export { createPictures };
