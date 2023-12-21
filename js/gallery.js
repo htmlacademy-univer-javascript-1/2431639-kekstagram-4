@@ -1,21 +1,20 @@
-import { createPictures } from './data.js';
-import { renderThumbnails } from './thumbnail.js';
 import { showBigPicture } from './bigPicture.js';
+import { renderThumbnails } from './thumbnail.js';
 
 const container = document.querySelector('.pictures');
-const pictures = createPictures();
 
-const renderGallery = () =>{
+const renderGallery = (photos) =>{
   container.addEventListener('click', (evt) =>{
     const thumbnail = evt.target.closest('[data-thumbnail-id]');
     if(!thumbnail){
-      throw 'Элемент не существует';
+      return;
+
     }
     evt.preventDefault();
-    const picture = pictures.find((item) => item.id === +thumbnail.dataset.thumbnailId);
+    const picture = photos.find((item) => item.id === +thumbnail.dataset.thumbnailId);
     showBigPicture(picture);
   });
-  renderThumbnails(pictures);
+  renderThumbnails(photos);
 };
 
-export { renderGallery };
+export{ renderGallery };
