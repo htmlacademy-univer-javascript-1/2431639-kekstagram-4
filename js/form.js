@@ -1,3 +1,6 @@
+import { resetScale } from './pictureScaling.js';
+import { resetEffect, initEffect } from './fx.js';
+
 const MAX_HASHTAG_COUNT = 5;
 const MAX_COMMENT_LENGTH = 140;
 const body = document.querySelector('body');
@@ -19,6 +22,7 @@ const pristine = new Pristine(form, {
 });
 
 const showModal = () => {
+  initEffect();
   overlay.classList.remove('hidden');
   body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
@@ -26,6 +30,8 @@ const showModal = () => {
 
 const hideModal = () => {
   form.reset();
+  resetEffect();
+  resetScale();
   pristine.reset();
   overlay.classList.add('hidden');
   body.classList.remove('modal-open');
