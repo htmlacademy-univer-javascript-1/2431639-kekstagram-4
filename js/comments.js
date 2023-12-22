@@ -1,3 +1,5 @@
+const COMMENTS_TO_LOAD = 5;
+
 export const bigPictureElement = document.querySelector('.big-picture');
 export const commentCountElement = bigPictureElement.querySelector('.social__comment-count');
 export const commentsLoaderElement = bigPictureElement.querySelector('.comments-loader');
@@ -19,7 +21,7 @@ const renderComments = () => {
   commentListElement.innerHTML = '';
   const fragment = document.createDocumentFragment();
 
-  for (let i = 0; i < 5 && commentsIndex < allComments.length; i++) {
+  for (let i = 0; i < COMMENTS_TO_LOAD && commentsIndex < allComments.length; i++) {
     fragment.append(createComment(allComments[commentsIndex++]));
   }
 

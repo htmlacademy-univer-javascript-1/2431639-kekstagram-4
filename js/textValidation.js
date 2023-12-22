@@ -1,7 +1,10 @@
+const MAX_HASHTAGS = 5;
+const MAX_COMMENT_LENGTH = 140;
+
 const uploadForm = document.querySelector('.img-upload__form');
 const hashtagInput = document.querySelector('.text__hashtags');
-const MAX_HASHTAGS = 5;
 const hashtagTemplate = /#[a-zа-яё0-9]{1,19}$/i;
+const commentInput = document.querySelector('.text__description');
 let hashtagErrorMessage;
 
 const pristine = new Pristine(uploadForm, {
@@ -33,6 +36,7 @@ const isHashtagsValid = () =>{
 };
 
 const createErrorMessage = () => hashtagErrorMessage;
-pristine.addValidator(hashtagInput,isHashtagsValid,createErrorMessage,1 , false);
+pristine.addValidator(hashtagInput, isHashtagsValid, createErrorMessage, 1, false);
+pristine.addValidator(commentInput, () => commentInput.value.length <= MAX_COMMENT_LENGTH, `Текст комментария не должен превышать ${MAX_COMMENT_LENGTH} символов`);
 
 export {pristine};
