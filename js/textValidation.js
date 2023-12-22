@@ -1,7 +1,7 @@
 const uploadForm = document.querySelector('.img-upload__form');
 const hashtagInput = document.querySelector('.text__hashtags');
 const MAX_HASHTAGS = 5;
-const hashtagTemplate = /#[a-zа-яё0-9]{0,19}$/i;
+const hashtagTemplate = /#[a-zа-яё0-9]{1,19}$/i;
 let hashtagErrorMessage;
 
 const pristine = new Pristine(uploadForm, {
