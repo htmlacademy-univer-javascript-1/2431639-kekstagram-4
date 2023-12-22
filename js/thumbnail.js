@@ -17,4 +17,8 @@ const renderThumbnails = function(pictures){
   picturesWrapper.appendChild(thumbnailsListFragment);
 };
 
-export { renderThumbnails };
+function removePictures(){
+  picturesWrapper.querySelectorAll('.picture').forEach((p) => p.remove());
+}
+
+export {renderThumbnails, removePictures };

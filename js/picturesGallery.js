@@ -8,7 +8,6 @@ const renderGallery = (photos) =>{
     const thumbnail = evt.target.closest('[data-thumbnail-id]');
     if(!thumbnail){
       return;
-
     }
     evt.preventDefault();
     const picture = photos.find((item) => item.id === +thumbnail.dataset.thumbnailId);
