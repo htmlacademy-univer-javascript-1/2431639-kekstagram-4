@@ -14,10 +14,18 @@ const imageEditorPreview = document.querySelector('.img-upload__preview img');
 const editorCloser = document.querySelector('.img-upload__cancel');
 const submitButton = uploadForm.querySelector('.img-upload__submit');
 
+const onDocumentKeyDown = (evt) => {
+  const errorMessage = document.querySelector('.error');
+  if (evt.key === 'Escape' && !errorMessage) {
+    evt.preventDefault();
+    // eslint-disable-next-line no-use-before-define
+    hideModal();
+  }
+};
+
 const hideModal = () => {
   if (!hashtagInput.matches(':focus') && !descriptionInput.matches(':focus')) {
     imageEditor.classList.add('hidden');
-    // eslint-disable-next-line no-use-before-define
     document.removeEventListener('keydown', onDocumentKeyDown);
     editorCloser.removeEventListener('click', hideModal);
     document.body.classList.remove('modal-open');
@@ -25,14 +33,6 @@ const hideModal = () => {
     resetScale();
     pristine.reset();
     resetEffects();
-  }
-};
-
-const onDocumentKeyDown = (evt) => {
-  const errorMessage = document.querySelector('.error');
-  if (evt.key === 'Escape' && !errorMessage) {
-    evt.preventDefault();
-    hideModal();
   }
 };
 

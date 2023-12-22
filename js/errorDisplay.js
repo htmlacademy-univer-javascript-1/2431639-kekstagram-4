@@ -34,7 +34,6 @@ const showErrorMessage = () => showMessage(errorMessage, '.error__button');
 
 const showSuccessMessage = () => showMessage(successMessage, '.success__button');
 
-
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = '100';
