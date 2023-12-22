@@ -1,5 +1,3 @@
-import { preview } from './fx.js';
-
 const SCALE = {
   STEP: 25,
   MIN: 25,
@@ -8,6 +6,7 @@ const SCALE = {
 };
 
 const upload = document.querySelector('.img-upload');
+const preview = upload.querySelector('.img-upload__preview img');
 const scaleInput = upload.querySelector('.scale__control--value');
 const upscaleButton = upload.querySelector('.scale__control--bigger');
 const downscaleButton = upload.querySelector('.scale__control--smaller');

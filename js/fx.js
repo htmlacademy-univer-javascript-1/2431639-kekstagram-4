@@ -1,109 +1,65 @@
-export const preview = document.querySelector('.img-upload__preview img');
+const EFFECTS = [
+  { name: 'none', style: 'none', min: 0, max: 100, step: 1, unit: '' },
+  { name: 'sepia', style: 'sepia', min: 0, max: 1, step: 0.1, unit: '' },
+  { name: 'chrome', style: 'grayscale', min: 0, max: 1, step: 0.1, unit: '' },
+  { name: 'marvin', style: 'invert', min: 0, max: 100, step: 1, unit: '%' },
+  { name: 'phobos', style: 'blur', min: 0, max: 3, step: 0.1, unit: 'px' },
+  { name: 'heat', style: 'brightness', min: 1, max: 3, step: 0.1, unit: '' },
+];
+
+const imageEditorPreview = document.querySelector('.img-upload__preview img');
+const effects = document.querySelector('.img-upload__effects');
 const slider = document.querySelector('.effect-level__slider');
-const effectLevelValue = document.querySelector('.effect-level__value');
-const effectsButton = document.querySelector('.effects__list');
+const sliderContainer = document.querySelector('.img-upload__effect-level');
+const effectLevel = document.querySelector('.effect-level__value');
 
-const commonSliderConfig = {
-  range: {
-    min: 0,
-    max: 1,
-  },
-  start: 1,
-  step: 0.1,
+const DEFAULT_EFFECT = EFFECTS[0];
+let currentEffect = DEFAULT_EFFECT;
+
+noUiSlider.create(slider, {
+  range: { min: 0, max: 1 },
+  start: 0,
+  step: 1,
   connect: 'lower',
-};
+  format: {
+    to: (value) => (Number.isInteger(value) ? value : value.toFixed(1)),
+    from: (value) => parseFloat(value),
+  },
+});
 
-const destroySlider = () => {
-  if (slider.noUiSlider) {
-    slider.noUiSlider.destroy();
-  }
-};
+const isDefault = () => currentEffect === DEFAULT_EFFECT;
 
-const getSpecificSliderConfig = (effectId) => {
-  switch (effectId) {
-    case 'effect-chrome':
-    case 'effect-sepia':
-      return { ...commonSliderConfig };
-    case 'effect-marvin':
-      return {
-        range: {
-          min: 0,
-          max: 100,
-        },
-        start: 100,
-        step: 1,
-        connect: 'lower',
-      };
-    case 'effect-phobos':
-    case 'effect-heat':
-      return {
-        range: {
-          min: 0,
-          max: 3,
-        },
-        start: 3,
-        step: 0.1,
-        connect: 'lower',
-      };
-    default:
-      return { ...commonSliderConfig };
-  }
-};
-
-const createSlider = (config, updateCallback) => {
-  noUiSlider.create(slider, config);
-  slider.noUiSlider.on('update', () => {
-    updateCallback(slider.noUiSlider.get());
+const updateSlider = () => {
+  slider.noUiSlider.updateOptions({
+    range: { min: currentEffect.min, max: currentEffect.max },
+    start: currentEffect.max,
+    step: currentEffect.step,
   });
+
+  sliderContainer.classList.toggle('hidden', isDefault());
 };
 
-const resetEffect = () => {
-  destroySlider();
-  preview.style.filter = '';
-  effectLevelValue.value = '';
-};
+slider.noUiSlider.on('update', () => {
+  const sliderValue = slider.noUiSlider.get();
+  imageEditorPreview.style.filter = isDefault()
+    ? DEFAULT_EFFECT.style
+    : `${currentEffect.style}(${sliderValue}${currentEffect.unit})`;
+  effectLevel.value = sliderValue;
+});
 
-const applyEffect = (effectId, value) => {
-  switch (effectId) {
-    case 'effect-chrome':
-      preview.style.filter = `grayscale(${value})`;
-      break;
-    case 'effect-sepia':
-      preview.style.filter = `sepia(${value})`;
-      break;
-    case 'effect-marvin':
-      preview.style.filter = `invert(${value}%)`;
-      break;
-    case 'effect-phobos':
-      preview.style.filter = `blur(${value}px)`;
-      break;
-    case 'effect-heat':
-      preview.style.filter = `brightness(${value})`;
-      break;
-    default:
-      resetEffect();
+const onEffectsChange = (evt) => {
+  if (!evt.target.classList.contains('effects__radio')) {
+    return;
   }
-  effectLevelValue.value = value;
+  currentEffect = EFFECTS.find((effect) => effect.name === evt.target.value);
+  imageEditorPreview.className = `effects__preview--${currentEffect.name}`;
+  updateSlider();
 };
 
-const initEffect = () => {
-  effectsButton.addEventListener('click', (evt) => {
-    const effectButton = evt.target.closest('.effects__radio');
-
-    if (effectButton) {
-      destroySlider();
-
-      const effectId = effectButton.id;
-      if (effectId === 'effect-none') {
-        resetEffect();
-      } else {
-        const specificSliderConfig = getSpecificSliderConfig(effectId);
-        createSlider(specificSliderConfig, (value) => {
-          applyEffect(effectId, value);
-        });
-      }
-    }
-  });
+export const resetEffects = () => {
+  currentEffect = DEFAULT_EFFECT;
+  updateSlider();
 };
 
-export { initEffect, resetEffect };
+sliderContainer.classList.add('hidden');
+effects.addEventListener('change', onEffectsChange);

@@ -1,71 +1,34 @@
-import {getRandomArrayElement, getRandomNumber, createRandomIdFromRangeGenerator} from './util.js';
+const SERVER_URL = 'https://29.javascript.pages.academy/kekstagram';
 
-const NAMES = [
-  'Бенедикт Камбербэтч',
-  'Антон Шкредов',
-  'Арнольд Шварценеггер',
-  'Юно Майлс',
-  'Мариано Арруда',
-  'Джастин Моралес',
-  'Зигмунд Фрейд',
-  'Кристиан Бэйл',
-  'Тайлер Дёрден',
-  'Патрик Бэйтман',
-  'Райан Гослинг',
-  'Мадс Миккельсен',
-  'Дженсен Эклс',
-  'Майкл Джордан',
-  'Кэнтаро Миура',
-  'Стэнли Кубрик',
-  'Эдвард Элрик',
-  'Эдвард Кенуэй',
-];
+const ROUTE = {
+  GET_DATA:'/data',
+  SEND_DATA:'/'
+};
 
-const SENTENCES = `Всё отлично!
-В целом всё неплохо. Но не всё.
-Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.
-Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.
-Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.
-Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!`.split(/\n/g);
+const METHOD = {
+  GET: 'GET',
+  POST: 'POST'
+};
 
-const DESCRIPTIONS = `Вот так вот
-И такое бывает!
-Что было - то прошло
-Я всегда мечтал стать гигантским космическим крабом`.split(/\n/g);
+const ErrorText = {
+  GET_DATA: 'Не удалось загрузить данные. Попробуйте обновить страницу',
+  SEND_DATA: 'Не удалось отправить форму. Попробуйте ещё раз'
+};
 
-const OBJECTS_COUNT = 25;
-const MAX_COMMENTS_COUNT = 30;
+const loadData = (route, errorText, method = METHOD.GET, body = null) =>
+  fetch(`${SERVER_URL}${route}`, {method, body})
+    .then((response) => {
+      if (response.ok){
+        return response.json();
+      }
+      throw new Error();
+    })
+    .catch(() => {
+      throw new Error(errorText);
+    });
 
-function generateText (source) {
-  return function () {
-    const getSentenceId = createRandomIdFromRangeGenerator(0, source.length - 1);
-    return source[getSentenceId()];
-  };
-}
+const getData = () => loadData(ROUTE.GET_DATA, ErrorText.GET_DATA);
 
-function createObject (getIdFunction) {
-  return function () {
-    const idValue = getIdFunction();
-    return {
-      id: idValue,
-      url: `photos/${idValue}.jpg`,
-      description: getRandomArrayElement(DESCRIPTIONS),
-      likes: getRandomNumber(15, 200),
-      comments: Array.from({length: getRandomNumber(0, MAX_COMMENTS_COUNT)}, createComment(createRandomIdFromRangeGenerator(1, MAX_COMMENTS_COUNT))),
-    };
-  };
-}
+const sendData = (body) => loadData(ROUTE.SEND_DATA, ErrorText.SEND_DATA, METHOD.POST, body);
 
-function createComment (getIdFunction) {
-  return function () {
-    return {
-      id: getIdFunction(),
-      avatar: `img/avatar-${getRandomNumber(1, 6)}.svg`,
-      message: Array.from({length: getRandomNumber(1, 2)}, generateText(SENTENCES)),
-      name: getRandomArrayElement(NAMES),
-    };
-  };
-}
-
-const createPictures = () => Array.from({length: OBJECTS_COUNT}, createObject(createRandomIdFromRangeGenerator(1, OBJECTS_COUNT)));
-export { createPictures };
+export { getData, sendData} ;
