@@ -18,6 +18,7 @@ const onDocumentKeyDown = (evt) => {
   const errorMessage = document.querySelector('.error');
   if (evt.key === 'Escape' && !errorMessage) {
     evt.preventDefault();
+    // eslint-disable-next-line no-use-before-define
     hideModal();
   }
 };
