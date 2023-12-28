@@ -30,11 +30,11 @@ const showMessage = (message, messageButton) => {
   document.body.querySelector(messageButton).addEventListener('click', hideMessage);
 };
 
-const showErrorMessage = () => showMessage(errorMessage, '.error__button');
+const errorMessageShowHandler = () => showMessage(errorMessage, '.error__button');
 
-const showSuccessMessage = () => showMessage(successMessage, '.success__button');
+const successMessageShowHandler = () => showMessage(successMessage, '.success__button');
 
-const showAlert = (message) => {
+const alertShowHandler = (message) => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = '100';
   alertContainer.style.position = 'absolute';
@@ -51,4 +51,4 @@ const showAlert = (message) => {
   document.body.append(alertContainer);
 };
 
-export {showSuccessMessage, showErrorMessage, showAlert};
+export {successMessageShowHandler, errorMessageShowHandler, alertShowHandler};

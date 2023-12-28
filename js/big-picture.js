@@ -27,11 +27,11 @@ const renderPictureDetails = ({url, likes, description, comments}) => {
   setAllComments(comments);
 };
 
-const loadMoreComments = () => {
+const onLoadMoreComments = () => {
   renderComments();
 };
 
-const showBigPicture = (data) => {
+const onBigPictureShow = (data) => {
   bigPictureElement.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
   commentsLoaderElement.classList.remove('hidden');
@@ -39,9 +39,9 @@ const showBigPicture = (data) => {
   document.addEventListener('keydown', onDocumentKeyDown);
   renderPictureDetails(data);
 
-  commentsLoaderElement.addEventListener('click', loadMoreComments);
+  commentsLoaderElement.addEventListener('click', onLoadMoreComments);
 };
 
 cancelButtonElement.addEventListener('click', onCancelButtonClick);
 
-export { showBigPicture };
+export { onBigPictureShow };

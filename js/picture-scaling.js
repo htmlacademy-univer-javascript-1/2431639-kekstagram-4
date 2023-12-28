@@ -22,16 +22,16 @@ const adjustScale = (step) => {
   scalePicture(newValue);
 };
 
-const decreasePhoto = () => {
+const onPhotoDecrease = () => {
   adjustScale(-SCALE.STEP);
 };
 
-const increasePhoto = () => {
+const onPhotoIncrease = () => {
   adjustScale(SCALE.STEP);
 };
 
-downscaleButton.addEventListener('click', decreasePhoto);
-upscaleButton.addEventListener('click', increasePhoto);
+downscaleButton.addEventListener('click', onPhotoDecrease);
+upscaleButton.addEventListener('click', onPhotoIncrease);
 
 const resetScale = () => scalePicture(SCALE.DEFAULT);
 export { resetScale };
