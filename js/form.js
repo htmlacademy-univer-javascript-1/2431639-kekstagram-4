@@ -1,8 +1,8 @@
-import { pristine } from './textValidation.js';
-import { resetScale } from './pictureScaling.js';
+import { pristine } from './text-validation.js';
+import { resetScale } from './picture-scaling.js';
 import { resetEffects } from './fx.js';
 import { sendData } from './data.js';
-import { showSuccessMessage, showErrorMessage } from './errorDisplay.js';
+import { successMessageShowHandler, errorMessageShowHandler } from './error-display.js';
 
 const previewList = document.querySelectorAll('.effects__preview');
 const uploadForm = document.querySelector('.img-upload__form');
@@ -19,15 +19,15 @@ const onDocumentKeyDown = (evt) => {
   if (evt.key === 'Escape' && !errorMessage) {
     evt.preventDefault();
     // eslint-disable-next-line no-use-before-define
-    hideModal();
+    onModalHide();
   }
 };
 
-const hideModal = () => {
+const onModalHide = () => {
   if (!hashtagInput.matches(':focus') && !descriptionInput.matches(':focus')) {
     imageEditor.classList.add('hidden');
     document.removeEventListener('keydown', onDocumentKeyDown);
-    editorCloser.removeEventListener('click', hideModal);
+    editorCloser.removeEventListener('click', onModalHide);
     document.body.classList.remove('modal-open');
     uploadForm.reset();
     resetScale();
@@ -42,7 +42,7 @@ fileInput.addEventListener('change', () => {
   imageEditorPreview.style = 'width:100%;height:100%;object-fit:cover';
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeyDown);
-  editorCloser.addEventListener('click', hideModal);
+  editorCloser.addEventListener('click', onModalHide);
   previewList.forEach((item) => {
     item.style.backgroundImage = `url(${imageEditorPreview.src})`;
   });
@@ -55,10 +55,10 @@ uploadForm.addEventListener('submit', async (evt) => {
     submitButton.disabled = true;
     try {
       await sendData(new FormData(evt.target));
-      showSuccessMessage();
-      hideModal();
+      successMessageShowHandler();
+      onModalHide();
     } catch (error) {
-      showErrorMessage();
+      errorMessageShowHandler();
     } finally {
       submitButton.disabled = false;
     }

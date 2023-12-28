@@ -1,7 +1,7 @@
 import { debounce } from './utils.js';
 import { getRandomNumber } from './utils.js';
 import { removePictures } from './thumbnail.js';
-import { renderGallery } from './picturesGallery.js';
+import { renderGallery } from './pictures-gallery.js';
 
 const filtersSection = document.querySelector('.img-filters');
 let photosData;

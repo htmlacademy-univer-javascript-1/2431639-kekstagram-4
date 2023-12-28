@@ -1,9 +1,9 @@
-import { renderGallery } from './picturesGallery.js';
+import { renderGallery } from './pictures-gallery.js';
 import { getData } from './data.js';
-import { showAlert } from './errorDisplay.js';
+import { alertShowHandler } from './error-display.js';
 import { showFilters } from './filter.js';
 import './form.js';
-import './pictureScaling.js';
+import './picture-scaling.js';
 import './fx.js';
 
 const loadPictures = async () => {
@@ -13,7 +13,7 @@ const loadPictures = async () => {
     showFilters(data);
   }
   catch (err){
-    showAlert(err.message);
+    alertShowHandler(err.message);
   }
 };
 
